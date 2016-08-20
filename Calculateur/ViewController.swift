@@ -37,14 +37,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func performOperation(sender: UIButton) {
-        userIsTyping = false
-        if let symbol = sender.currentTitle {
-            if symbol == "π" {
-                displayValue = M_PI
-            } else if symbol == "√" {
-                displayValue = sqrt(displayValue)
-            }
+        if userIsTyping {
+            brain.setOperand(displayValue)
+            userIsTyping = false
         }
+        if let symbol = sender.currentTitle {
+            brain.perform(symbol)
+        }
+        displayValue = brain.result
     }
 }
 
