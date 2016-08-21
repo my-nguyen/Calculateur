@@ -41,9 +41,25 @@ class Brain {
         // 2. assign different associated values (M_PI, sqrt)
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
+        // see the explanation below for Operation.Binary({ $0 * $1 })
+        "±" : Operation.Unary({ -$0 }),
         "√" : Operation.Unary(sqrt),
         "cos" : Operation.Unary(cos),
-        "×" : Operation.Binary(multiply),
+        // fully expressed original version of the closure:
+        // Operation.Binary({ (op1: Double, op2: Double) -> Double in return op1 * op2 }),
+        // 1. as defined in enum Operation, Operation.Binary accepts a function taking 2 Double params and
+        // returning a Double. using type inference that expression can be shorted to
+        // Operation.Binary({ (op1, op2) in return op1 * op2 }),
+        // 2. closure has default arguments $0, $1, etc. so:
+        // Operation.Binary({ ($0, $1) in return $0 * $1 }),
+        // 3. even better:
+        // Operation.Binary({ return $0 * $1 }),
+        // 4. finally:
+        // Operation.Binary({ $0 * $1 }),
+        "×" : Operation.Binary({ $0 * $1 }),
+        "÷" : Operation.Binary({ $0 / $1 }),
+        "+" : Operation.Binary({ $0 + $1 }),
+        "−" : Operation.Binary({ $0 - $1 }),
         "=" : Operation.Equal
     ]
     private var pending: PendingInfo?
