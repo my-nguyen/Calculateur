@@ -16,7 +16,7 @@ func multiply(op1: Double, op2: Double) -> Double {
 
 class Brain {
 
-    enum Operation {
+    private enum Operation {
         // 1. associated value
         case Constant(Double)
         case Unary((Double) -> Double)
@@ -25,7 +25,7 @@ class Brain {
     }
 
     // struct example. note a struct doesn't require an initializer (as with a class)
-    struct PendingInfo {
+    private struct PendingInfo {
         var binaryFunction: (Double, Double) -> Double
         var firstOperand: Double
     }
@@ -37,7 +37,7 @@ class Brain {
         }
     }
     private var accumulator = 0.0
-    var operations: Dictionary<String, Operation> = [
+    private var operations: Dictionary<String, Operation> = [
         // 2. assign different associated values (M_PI, sqrt)
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
