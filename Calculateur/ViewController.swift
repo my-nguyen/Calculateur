@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         }
     }
     private var brain = Brain()
+    var savedProgram: Brain.MyPropertyList?
 
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -45,6 +46,17 @@ class ViewController: UIViewController {
             brain.perform(symbol)
         }
         displayValue = brain.result
+    }
+
+    @IBAction func save() {
+        savedProgram = brain.program
+    }
+
+    @IBAction func restore() {
+        if savedProgram != nil {
+            brain.program = savedProgram!
+            displayValue = brain.result
+        }
     }
 }
 

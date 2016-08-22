@@ -63,12 +63,41 @@ class Brain {
         "=" : Operation.Equal
     ]
     private var pending: PendingInfo?
+    // an array that stores operands (Double) and operation symbols (String)
+    private var internalProgram = [AnyObject]()
+    typealias MyPropertyList = AnyObject
+    var program: MyPropertyList {
+        get {
+            return internalProgram
+        }
+        set {
+            // clear out internal state
+            clear()
+            // make sure newValue is an array of AnyObject's
+            if let array = newValue as? [AnyObject] {
+                // loop thru elements in that array
+                for element in array {
+                    if let operand = element as? Double {
+                        // if element is a Double, store it as an operand
+                        setOperand(operand)
+                    } else if let operation = element as? String {
+                        // if element is a String symbol, perform operation based on that symbol
+                        perform(operation)
+                    }
+                }
+            }
+        }
+    }
 
     func setOperand(operand: Double) {
         accumulator = operand
+        // store operand in internalProgram
+        internalProgram.append(operand)
     }
 
     func perform(symbol: String) {
+        // store operation symbol in internalProgram
+        internalProgram.append(symbol)
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let value):
@@ -93,5 +122,11 @@ class Brain {
             accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
             pending = nil
         }
+    }
+
+    private func clear() {
+        accumulator = 0.0
+        pending = nil
+        internalProgram.removeAll()
     }
 }
