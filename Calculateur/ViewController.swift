@@ -8,6 +8,8 @@
 
 import UIKit
 
+var calculatorCount = 0
+
 class ViewController: UIViewController {
 
     @IBOutlet private weak var display: UILabel!
@@ -25,6 +27,18 @@ class ViewController: UIViewController {
     }
     private var brain = Brain()
     var savedProgram: Brain.MyPropertyList?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        calculatorCount += 1
+        print("new calculator, count: \(calculatorCount)")
+    }
+
+    // deinit gets called something leaves the heap
+    deinit {
+        calculatorCount -= 1
+        print("calculator destroyed, count: \(calculatorCount)")
+    }
 
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
