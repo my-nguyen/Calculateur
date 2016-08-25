@@ -32,6 +32,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         calculatorCount += 1
         print("new calculator, count: \(calculatorCount)")
+        brain.addUnaryOperation("Z") { [ unowned self ] in
+            self.display.textColor = UIColor.redColor()
+            return sqrt($0)
+        }
     }
 
     // deinit gets called something leaves the heap

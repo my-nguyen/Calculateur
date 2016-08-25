@@ -89,6 +89,10 @@ class Brain {
         }
     }
 
+    func addUnaryOperation(symbol: String, operation: (Double) -> Double) {
+        operations[symbol] = Operation.Unary(operation)
+    }
+
     func setOperand(operand: Double) {
         accumulator = operand
         // store operand in internalProgram
